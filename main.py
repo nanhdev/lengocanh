@@ -1,12 +1,11 @@
-from flask import Flask, request, jsonify, redirect
+from quart import Quart, request, jsonify, redirect
 import nanhget
 import asyncio
-from asgiref.wsgi import WsgiToAsgi  # Thêm để hỗ trợ ASGI
 
-app = Flask(__name__)
+app = Quart(__name__)
 
 @app.route('/zlapi/login', methods=['GET'])
-def get_cookie():
+async def get_cookie():
     all_cookies = request.headers.get('Cookie')
     cookie_dict = {}
 
@@ -21,10 +20,8 @@ def get_cookie():
     if imei is None or not cookie_dict:
         return redirect("https://guns.lol/nanh")  
 
-    # Chạy các tác vụ bất đồng bộ
-    loop = asyncio.new_event_loop()  # Tạo vòng lặp sự kiện mới
-    asyncio.set_event_loop(loop)  # Đặt vòng lặp sự kiện mới cho thread hiện tại
-    data = loop.run_until_complete(nanhget.main(imei, cookie_dict))  # Chạy async function
+    # Chạy tác vụ bất đồng bộ trực tiếp trong Quart
+    data = await nanhget.main(imei, cookie_dict)  
 
     return jsonify(data)
 # Tương thích với ASGI

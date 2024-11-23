@@ -24,5 +24,3 @@ async def get_cookie():
     data = await nanhget.main(imei, cookie_dict)  
 
     return jsonify(data)
-# Tương thích với ASGI
-app_asgi = WsgiToAsgi(app)

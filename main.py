@@ -19,7 +19,11 @@ def get_cookie():
     imei = request.args.get('imei')
 
     if imei is None or not cookie_dict:
-        return redirect("https://guns.lol/nanh")  
+       data = {
+          'error_code': 403,
+         ' error_message': "Quốc Khánh Đz Vờ Lờ"
+       }
+       return data
 
     # Xử lý API nếu có đủ cookie và imei
     data = asyncio.run(nanhget.main(imei, cookie_dict))

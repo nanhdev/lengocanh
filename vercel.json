@@ -8,7 +8,7 @@
   ],
   "routes": [
     {
-      "src": "/lengocanh",
+      "src": "/zlapi/login",
       "dest": "/main.py"
     }
   ]

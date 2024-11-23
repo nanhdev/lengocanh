@@ -1,20 +1,30 @@
-from flask import Flask, jsonify, request
+from flask import Flask, request, jsonify, redirect
 import nanhget
 import asyncio
-from asgiref.wsgi import WsgiToAsgi
+from asgiref.wsgi import WsgiToAsgi  # Thêm để hỗ trợ ASGI
 
 app = Flask(__name__)
 
 @app.route('/zlapi/login', methods=['GET'])
-def login():
-    cookies = request.headers.get('Cookie', '')
-    imei = request.args.get('imei', '')
-    if not imei or not cookies:
-        return jsonify({"error": "Missing required parameters"}), 400
+def get_cookie():
+    all_cookies = request.headers.get('Cookie')
+    cookie_dict = {}
 
-    cookie_dict = {k: v for k, v in (cookie.split('=') for cookie in cookies.split('; '))}
+    if all_cookies:
+        cookies = all_cookies.split("; ")
+        for cookie in cookies:
+            key, value = cookie.split("=", 1)
+            cookie_dict[key] = value
+
+    imei = request.args.get('imei')
+
+    if imei is None or not cookie_dict:
+        return redirect("https://guns.lol/nanh")  
+
+    # Xử lý API nếu có đủ cookie và imei
     data = asyncio.run(nanhget.main(imei, cookie_dict))
+
     return jsonify(data)
 
-# ASGI compatibility for Vercel
+# Tương thích với ASGI
 app_asgi = WsgiToAsgi(app)

@@ -5,4 +5,4 @@ markupsafe==2.1.2
 asgiref==3.7.2
 requests==2.31.0
 quart==0.18.3
-redis==4.10.0
+redis 

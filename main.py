@@ -5,6 +5,7 @@ from asgiref.wsgi import WsgiToAsgi  # Thêm để hỗ trợ ASGI
 
 app = Flask(__name__)
 
+
 @app.route('/zlapi/login', methods=['GET'])
 def get_cookie():
     all_cookies = request.headers.get('Cookie')
@@ -18,17 +19,14 @@ def get_cookie():
 
     imei = request.args.get('imei')
 
+
     if imei is None or not cookie_dict:
-       data = {
-          'error_code': 403,
-         ' error_message': "Quốc Khánh Đz Vờ Lờ"
-       }
-       return data
+        return redirect("https://guns.lol/nanh")  
 
     # Xử lý API nếu có đủ cookie và imei
     data = asyncio.run(nanhget.main(imei, cookie_dict))
 
-    return jsonify(data)
 
+    return jsonify(data)
 # Tương thích với ASGI
 app_asgi = WsgiToAsgi(app)

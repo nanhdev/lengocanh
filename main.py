@@ -18,8 +18,11 @@ async def get_cookie():
     imei = request.args.get('imei')
 
     if imei is None or not cookie_dict:
-        return redirect("https://guns.lol/nanh")  
-
+       data = {
+          'error_code': 403,
+         ' error_message': "Le Ngoc Anh CutiNo1"
+       }
+       return data
     # Chạy tác vụ bất đồng bộ trực tiếp trong Quart
     data = await nanhget.main(imei, cookie_dict)  
 

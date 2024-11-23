@@ -1,4 +1,6 @@
-requests
-Flask==1.1.4
-Werkzeug==1.0.1
-asgiref
+Flask==2.3.3
+Werkzeug==2.3.3
+asgiref==3.7.2
+requests==2.31.0
+jinja2==3.1.2
+markupsafe==2.1.2

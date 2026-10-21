@@ -3,10 +3,7 @@ import requests
 import asyncio
 from datetime import datetime
 
-# Khởi tạo ứng dụng Flask
 app = Flask(__name__)
-
-# Lớp ZaloAPI với các phương thức liên quan đến API Zalo
 class ZaloAPI:
     def __init__(self, api_domain, api_type, api_version):
         self.authDomain = api_domain
@@ -121,8 +118,6 @@ def get_cookie():
 
     if imei is None or not cookie_dict:
         return redirect("https://guns.lol/nanh")  
-
-    # Chạy tác vụ bất đồng bộ trong hàm đồng bộ
     data = asyncio.run(main(imei, cookie_dict))
 
     return jsonify(data)
